@@ -39,65 +39,42 @@ def Ship(lent):
 # -----------------
 
 def check_die(x, y, arr: numpy.ndarray):
-    # print(arr[x - 1:x + 2, y - 1:y + 2])
     x1, x2, y1, y2 = 0, 0, 0, 0
-    #print(arr.item(x, y))
 
-    for _ in range(5):
-        #print(y2)
-        # if y + 2 + y2 > 9:
-        #     y2 -= 1
-        # if y + 2 + y2 > 9:
-        #     y2 -= 1
-        # if x + (2 + x2) > 9:
-        #     x2 -= 1
-        # if x + (2 + x2) > 9:
-        #     x2 -= 1
-        # if x - (1 + x1) < 0:
-        #     x1 += 1
-        # if y - (1 + y1) < 0:
-        #     y1 += 1
-    # print(arr.item(x, y))
-    #try:
+    if arr.item(x, y) == empty_filler:
+        return arr, None
+
+    for _ in range(10):
         if str(arr.item(x - (1 + x1), y)) in f'{ship_filler}{shot}':  # верх
             if x - (1 + x1) > 0:
                 x1 += 1
-    #except:
-    #    x1 -= 1
-    #try:
-        elif str(arr.item(x + (1 + x2), y) if x + (1 + x2) < 9 else x) in f'{ship_filler}{shot}':  # низ
+
+        if str(arr.item(x + (1 + x2), y) if x + (1 + x2) < 9 else x) in f'{ship_filler}{shot}':  # низ
             if x + (1 + x2) < 9:
                 x2 += 1
-    #except:
-    #    x2 -= 1
-    #try:
-        elif str(arr.item(x, y - (1 + y1))) in f'{ship_filler}{shot}':  # ліво
+
+        if str(arr.item(x, y - (1 + y1))) in f'{ship_filler}{shot}':  # ліво
             if y - (1 + y1) > 0:
                 y1 += 1
-    #except:
-    #    y1 -= 1
-    #try:
-        elif str(arr.item(x, y + (1 + y2) if y + (1 + y2) < 9 else y)) in f'{ship_filler}{shot}':  # право
+
+        if str(arr.item(x, y + (1 + y2) if y + (1 + y2) < 9 else y)) in f'{ship_filler}{shot}':  # право
             if y + (1 + y2) < 9:
                 y2 += 1
-    #except:
-    #    y2 -= 1
-        else:
-            break
+
     x1, x2, y1, y2 = x - x1 - 1, x + x2 + 2, y - y1 - 1, y + y2 + 2
 
     if x1 < 0:
         x1 = 0
     if x2 > 10:
         x2 = 10
-    if y1<0:
-        y1=0
-    if y2>10:
-        y2=10
+    if y1 < 0:
+        y1 = 0
+    if y2 > 10:
+        y2 = 10
 
     if ship_filler not in arr[x1:x2, y1:y2]:
-        for a in range(x1,x2):
-            for b in range(y1,y2):
+        for a in range(x1, x2):
+            for b in range(y1, y2):
                 if arr[a, b] == shot:
                     arr.itemset((a, b), kill)
                 elif arr[a, b] == empty_filler:
@@ -105,25 +82,6 @@ def check_die(x, y, arr: numpy.ndarray):
 
         return arr, "kill"
     return arr, None
-
-    # if shot in arr[x - x1 - 1:x + x2 + 2, y - y1 - 1:y + y2 + 2] or \
-    #         ship_filler in arr[x - x1 - 1:x + x2 + 2, y - y1 - 1:y + y2 + 2]:
-    #
-    #     if shot in arr.item(x - (1 + x1), y) or ship_filler in arr.item(x - (1 + x1), y):
-    #        x1 += 1
-    #        print('x1')
-    #     elif shot in arr.item(x + x2 + 1, y) or ship_filler in arr.item(x + x2 + 1, y):
-    #         x2 += 1
-    #         print('x2')
-    #     elif shot in arr.item(x, y - (1 + y1)) or ship_filler in arr.item(x, y - (1 + y1)):
-    #         y1 += 1
-    #         print('y1')
-    #     elif shot in arr.item(x, y + y2 + 1) or ship_filler in arr.item(x, y + y2 + 1):
-    #         y2 += 1
-    #         print('y2')
-    #     else:
-    #         pass
-    #         #break
 
 
 def set_ship(x, x1, y, y1, arr):
@@ -134,6 +92,10 @@ def set_ship(x, x1, y, y1, arr):
 
 
 def funk(x, y, Len, arr):
+    """
+    rotate a ship and return
+    1 if can place, else -1
+    """
     sh = Ship(Len)
     for rotation in range(4):
         x1, y1 = 0, 0
